@@ -1,7 +1,7 @@
 # Manifesto de Engenharia e Estratégia de Portfólio Sênior
 
 **Data:** 25 de Março de 2026
-**Status:** [DRAFT]
+**Status:** [APPROVED]
 **Arquitetura:** Monorepo (Turborepo) com Workspaces NPM/Yarn.
 
 ## 1. Visão Geral do Ecossistema
