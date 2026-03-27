@@ -1,12 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { ProductService } from './application/product.service';
+import { Product } from './domain/product.entity';
 
-@Controller()
+@Controller('products')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly productService: ProductService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  async getProducts(): Promise<Product[]> {
+    return this.productService.listProducts();
+  }
+
+  @Post()
+  async createProduct(@Body() productData: Omit<Product, 'id'>): Promise<Product> {
+    return this.productService.createProduct(productData);
   }
 }
