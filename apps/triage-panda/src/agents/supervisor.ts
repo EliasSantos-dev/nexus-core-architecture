@@ -1,7 +1,7 @@
-import { ChatOpenAI } from "@langchain/openai";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
 
-export const createSupervisor = async (llm: ChatOpenAI, members: string[]) => {
+export const createSupervisor = async (llm: ChatGoogleGenerativeAI, members: string[]) => {
   const systemPrompt = `Você é um supervisor encarregado de gerenciar uma conversa entre os seguintes trabalhadores: {members}.
 Dado o pedido do usuário, responda com o trabalhador que deve agir em seguida.
 Cada trabalhador executará uma tarefa e responderá com seus resultados e status.
@@ -38,6 +38,7 @@ Quando terminar, responda com FINISH.`;
     members: members.join(", "),
   });
 
+  // O Gemini suporta o bindTools nativamente no LangChain moderno
   return formattedPrompt
     .pipe(llm.bindTools([routingTool]))
     .pipe((x: any) => {
