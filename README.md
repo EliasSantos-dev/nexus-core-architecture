@@ -1,34 +1,38 @@
-# Senior Engineering Ecosystem: Financial & Autonomous Systems
+# Nexus Core Architecture
 
-Este monorepo demonstra proficiência em arquitetura de sistemas distribuídos, engenharia financeira com Stripe e orquestração de IA com LangGraph.
+Monorepo **Turborepo** explorando arquitetura de sistemas distribuídos com foco em **engenharia de pagamentos** e **Clean Architecture**. O propósito do repositório é demonstrar decisões de arquitetura, separação de camadas e testabilidade.
 
-## 🚀 Arquitetura Geral
-O ecossistema é gerenciado por um **Turborepo** para garantir build compartilhado, tipagem forte de ponta a ponta (Next.js ↔ NestJS) e reaproveitamento de esquemas Zod.
+## 🗂️ Estrutura
 
-### Projetos Inclusos:
-1.  **[Marketplace B2B](./apps/marketplace):** Engenharia Financeira resiliente (Stripe Connect).
-2.  **[Triage Panda](./apps/triage-panda):** IA Multi-Agente autônoma para DevOps.
-3.  **[Virtual CFO](./apps/virtual-cfo):** Agente de IA com capacidades de execução financeira.
+```
+apps/
+├── marketplace/   # ✅ Marketplace B2B — pagamentos (Stripe) e webhooks (NestJS)
+├── triage-panda/  # 🚧 roadmap — automação de DevOps
+└── virtual-cfo/   # 🚧 roadmap — agente financeiro
+packages/
+└── shared/        # código e contratos compartilhados entre apps
+```
 
----
+> **Transparência:** hoje o app **marketplace** é o que está implementado. `triage-panda` e `virtual-cfo` são direções planejadas do ecossistema e ainda não possuem código.
 
-## 🛡️ Manifesto de Qualidade
-Para assegurar o nível de excelência técnica e senioridade, este repositório segue rigorosamente:
-- **Trunk-Based Development:** Feature branches para cada sub-tarefa.
-- **TDD & Testes de Integração:** Uso massivo de Vitest e Stripe CLI.
-- **Idempotência e Resiliência:** Estratégias contra duplicidade de webhooks e condições de corrida.
-- **Governança de IA:** Diretrizes estritas para co-autoria com assistentes de IA (Cursor/Copilot) definidas no [agents.md](./agents.md).
+## ✅ Marketplace B2B (implementado)
 
-## 🛠️ Tecnologias Chave
-- **Monorepo:** Turborepo, Workspaces.
-- **Backends:** NestJS, TypeORM, PostgreSQL.
-- **Frontends:** Next.js 15+ (App Router), Tailwind CSS.
-- **IA:** LangGraph.js, OpenAI, Pinecone (RAG).
-- **Finanças:** Stripe SDK, Stripe Connect.
+API **NestJS** com pagamentos via **Stripe** e processamento de **webhooks**, organizada em camadas:
 
----
+- `application/` — casos de uso: `payment.service`, `product.service`, `webhook-processor.service`
+- Validação de entrada com **Zod**
+- **Testes** (`*.spec.ts`) cobrindo serviços e o processamento de webhooks
+- Pacote **`@senior-portfolio/shared`** com contratos reutilizados
 
-## 📦 Como Executar
-1. Instale o Turbo: `npm install -g turbo`
-2. Instale as dependências: `npm install`
-3. Execute em dev: `npm run dev`
+## 🧰 Tooling
+
+- **Turborepo** — build e cache compartilhados, tipagem forte entre pacotes
+- **TypeScript** em todo o monorepo
+- **NestJS** no backend
+
+## 🚀 Rodando
+
+```bash
+npm install
+npx turbo run dev
+```
