@@ -11,6 +11,5 @@ npm-debug.log*
 Thumbs.db
 
 # IDE
-.vscode/
 .idea/
 config.bat
